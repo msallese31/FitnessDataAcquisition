@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="spinnerItems">
+        <item>Bicep curl</item>
+        <item>Pull up</item>
+        <item>Barbell Bench Press</item>
+        <item>Tricep extension</item>
+    </string-array>
+</resources>

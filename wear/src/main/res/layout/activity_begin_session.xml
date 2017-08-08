@@ -1,0 +1,57 @@
+<android.support.wearable.view.BoxInsetLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_height="match_parent"
+    android:layout_width="match_parent"
+    android:padding="15dp"
+    android:background="@color/black">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="5dp"
+        app:layout_box="all"
+        android:background="@color/black">
+
+        <TextView
+            android:gravity="top|center"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:text="Select an activity"
+            android:textColor="@color/white"
+            android:fontFamily="@font/android_7"
+            android:textSize="20dp"/>
+
+        <!--<ImageButton-->
+            <!--android:background="@null"-->
+            <!--android:layout_gravity="bottom|left"-->
+            <!--android:layout_height="50dp"-->
+            <!--android:layout_width="50dp"-->
+            <!--android:src="@mipmap/ic_launcher" />-->
+
+        <!--<ImageButton-->
+            <!--android:background="@null"-->
+            <!--android:layout_gravity="bottom|right"-->
+            <!--android:layout_height="50dp"-->
+            <!--android:layout_width="50dp"-->
+            <!--android:src="@mipmap/ic_launcher" />-->
+        <ImageButton
+            android:id="@+id/exerciseButton"
+            android:layout_gravity="bottom|left"
+            android:layout_width="65dp"
+            android:layout_height="65dp"
+            android:src="@mipmap/workout_foreground"
+            android:onClick="exercise"/>
+
+        <ImageButton
+            android:id="@+id/shotButton"
+            android:layout_gravity="bottom|right"
+            android:layout_width="65dp"
+            android:layout_height="65dp"
+            android:src="@mipmap/shoot_foreground"
+            android:onClick="shoot"/>
+
+
+
+    </FrameLayout>
+</android.support.wearable.view.BoxInsetLayout>
