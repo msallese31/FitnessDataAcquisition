@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.wearable.activity.WearableActivity;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import static com.projects.sallese.fitnessdataacquisition.LogHelper.logSensorLevel;
@@ -12,6 +13,8 @@ import static com.projects.sallese.fitnessdataacquisition.LogHelper.logSensorLev
 public class NameAndWeightActivity extends WearableActivity {
 
     private Button callDataCollectorButton;
+    private Spinner exerciseNameSpinner;
+    private TextView weightTextView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -19,6 +22,8 @@ public class NameAndWeightActivity extends WearableActivity {
         setContentView(R.layout.activity_name_and_weight);
 
         callDataCollectorButton = (Button) findViewById(R.id.callDataCollectorButton);
+        exerciseNameSpinner = (Spinner) findViewById(R.id.exerciseSpinner);
+        weightTextView = (TextView) findViewById(R.id.weightEditText);
 
         // Enables Always-on
         setAmbientEnabled();
@@ -26,9 +31,18 @@ public class NameAndWeightActivity extends WearableActivity {
 
     public void saveDataAndReturn (View v){
         logSensorLevel("Name and weight activity linked!");
-        // TODO: 8/6/17 Save input and make sure fields are not empty
-        setResult(RESULT_OK);
+        // TODO: 8/6/17 Validate data
+        validateData();
+        Intent resultIntent = new Intent();
+        resultIntent.putExtra("exercise_name", exerciseNameSpinner.getSelectedItem().toString());
+        resultIntent.putExtra("weight", Integer.parseInt(weightTextView.getText().toString()));
+
+        setResult(RESULT_OK, resultIntent);
         finish();
+    }
+
+    public void validateData(){
+        logSensorLevel("IMPLEMENT VALIDATE DATA");
     }
 
     @Override

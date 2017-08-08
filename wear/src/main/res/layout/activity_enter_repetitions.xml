@@ -14,29 +14,22 @@
         android:background="@color/green">
 
         <Button
-            android:id="@+id/callDataCollectorButton"
-            android:layout_gravity="bottom|right"
-            android:layout_width="60dp"
+            android:id="@+id/submitRepsButton"
+            android:layout_gravity="bottom|center"
+            android:layout_width="100dp"
             android:layout_height= "50dp"
             android:text="Submit"
             android:textSize="10dp"
             android:onClick="saveDataAndReturn"/>
 
-        <Spinner
-            android:id="@+id/exerciseSpinner"
-            android:layout_gravity="top|center"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:entries="@array/spinnerExerciseItems"/>
 
         <EditText
-            android:id="@+id/weightEditText"
-            android:layout_gravity="bottom|left"
-            android:layout_width="50dp"
+            android:id="@+id/repetitionsEditText"
+            android:layout_gravity="top|center"
+            android:layout_width="120dp"
             android:layout_height="50dp"
             android:ems="10"
-            android:inputType="number"
-            android:hint="Weight"/>
+            android:inputType="number" />
 
 
     </FrameLayout>

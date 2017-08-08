@@ -62,12 +62,12 @@ public class DataCollectionService extends Service implements SensorEventListene
         float x = event.values[0];
         float y = event.values[1];
         float z = event.values[2];
-        logSensorLevel("Sensor: " + event.sensor.getName() + "\n" + "X: " + x + "Y: " + y + "Z:" + z + "\n");
+//        logSensorLevel("Sensor: " + event.sensor.getName() + "\n" + "X: " + x + "Y: " + y + "Z:" + z + "\n");
         if (event.sensor.getType() == Sensor.TYPE_ACCELEROMETER){
-            logSensorLevel("Acclerometer should be a " + event.sensor.getName() + "\n");
+//            logSensorLevel("Acclerometer should be a " + event.sensor.getName() + "\n");
             return;
         }
-        logSensorLevel("Gyro should be a " + event.sensor.getName() + "\n");
+//        logSensorLevel("Gyro should be a " + event.sensor.getName() + "\n");
     }
 
     @Override

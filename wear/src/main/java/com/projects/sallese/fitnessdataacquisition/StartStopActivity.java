@@ -14,7 +14,13 @@ public class StartStopActivity extends WearableActivity {
     private Button startStopButton;
     private String activityType;
     public final static int REQUEST_CODE_NAME_AND_WEIGHT = 1;
+    public final static int REQUEST_CODE_REPETITIONS = 2;
 
+    private int numberOfReps;
+    private String exerciseName;
+    private int weightUsed;
+
+    WorkoutObject workoutObject;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,6 +47,7 @@ public class StartStopActivity extends WearableActivity {
     }
 
     public void startExercise (){
+        workoutObject = new WorkoutObject();
         Intent nameAndWeightIntent = new Intent(this, NameAndWeightActivity.class);
         startActivityForResult(nameAndWeightIntent, REQUEST_CODE_NAME_AND_WEIGHT);
     }
@@ -54,23 +61,50 @@ public class StartStopActivity extends WearableActivity {
                 switch(resultCode) {
                     case RESULT_OK:
                         logSensorLevel("Got back from name and weight ok!");
+                        setNameAndWeight(data);
                         startRecordingData();
                         break;
                     case RESULT_CANCELED:
                         //you just got back from activity C - deal with resultCode
-                        logSensorLevel("Something bad happened");
+                        logSensorLevel("Something bad happened in name and weight");
                         break;
                 }
                 break;
-            // TODO: 8/6/17 Handle Shot 
-            case RESULT_CANCELED:
-                //you just got back from activity C - deal with resultCode
+            case REQUEST_CODE_REPETITIONS:
+                switch(resultCode) {
+                    case RESULT_OK:
+                        logSensorLevel("Got back from repetitions ok!!");
+                        setRepetitions(data);
+                        break;
+                    case RESULT_CANCELED:
+                        //you just got back from activity C - deal with resultCode
+                        logSensorLevel("Something bad happened in reps");
+                        break;
+                }
                 break;
+            // TODO: 8/6/17 Handle Shot
         }
+    }
+
+    private void setNameAndWeight(Intent data){
+        workoutObject.setExerciseName(data.getStringExtra("exercise_name"));
+        workoutObject.setWeightUsed(data.getIntExtra("weight", -1));
+        // TODO: 8/7/17 Check values returned
+        logSensorLevel("Set name and weight!\nName: " + workoutObject.getExerciseName() +"\nWeight: " + workoutObject.getWeightUsed());
+    }
+
+    private void setRepetitions(Intent data){
+        workoutObject.setNumberOfReps(data.getIntExtra("repetitions", -1));
+        // TODO: 8/7/17 Check values returned
+        logSensorLevel("Set repetitions!\nReps: " + workoutObject.getNumberOfReps() +"\n");
+        logSensorLevel("Name: " + workoutObject.getExerciseName() +"\nWeight: " + workoutObject.getWeightUsed());
+
     }
 
     public void stopExercise(){
         stopRecordingData();
+        Intent enterRepsIntent = new Intent(this, EnterRepetitions.class);
+        startActivityForResult(enterRepsIntent, REQUEST_CODE_REPETITIONS);
     }
 
     public void startShoot (){

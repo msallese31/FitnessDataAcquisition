@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string-array name="spinnerItems">
+    <string-array name="spinnerExerciseItems">
         <item>Bicep curl</item>
         <item>Pull up</item>
         <item>Barbell Bench Press</item>
