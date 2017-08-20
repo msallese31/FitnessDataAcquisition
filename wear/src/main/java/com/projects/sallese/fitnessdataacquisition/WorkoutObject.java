@@ -1,5 +1,7 @@
 package com.projects.sallese.fitnessdataacquisition;
 
+import java.util.ArrayList;
+
 /**
  * Created by sallese on 8/7/17.
  */
@@ -9,13 +11,13 @@ public class WorkoutObject {
     public String exerciseName;
     public int weightUsed;
 
-    public float[] XAcc;
-    public float[] YAcc;
-    public float[] ZAcc;
+    public ArrayList<Float> XAcc;
+    public ArrayList<Float> YAcc;
+    public ArrayList<Float> ZAcc;
 
-    public float[] XGyro;
-    public float[] YGyro;
-    public float[] ZGyro;
+    public ArrayList<Float> XGyro;
+    public ArrayList<Float> YGyro;
+    public ArrayList<Float> ZGyro;
 
     public void setExerciseName(String exerciseName) {
         this.exerciseName = exerciseName;
@@ -29,13 +31,13 @@ public class WorkoutObject {
         this.weightUsed = weightUsed;
     }
 
-    public void setAccel(float[] xacc, float[] yacc, float[] zacc){
+    public void setAccel(ArrayList<Float> xacc, ArrayList<Float> yacc, ArrayList<Float> zacc){
         this.XAcc = xacc;
         this.YAcc = yacc;
         this.ZAcc = zacc;
     }
 
-    public void setGyro(float[] xgy, float[] ygy, float[] zgy){
+    public void setGyro(ArrayList<Float> xgy, ArrayList<Float> ygy, ArrayList<Float> zgy){
         this.XGyro = xgy;
         this.YGyro = ygy;
         this.ZGyro = zgy;
@@ -52,27 +54,27 @@ public class WorkoutObject {
         return exerciseName;
     }
 
-    public float[] getXAcc() {
+    public ArrayList<Float> getXAcc() {
         return XAcc;
     }
 
-    public float[] getYAcc() {
+    public ArrayList<Float> getYAcc() {
         return YAcc;
     }
 
-    public float[] getZAcc() {
+    public ArrayList<Float> getZAcc() {
         return ZAcc;
     }
 
-    public float[] getXGyro() {
+    public ArrayList<Float> getXGyro() {
         return XGyro;
     }
 
-    public float[] getYGyro() {
+    public ArrayList<Float> getYGyro() {
         return YGyro;
     }
 
-    public float[] getZGyro() {
+    public ArrayList<Float> getZGyro() {
         return ZGyro;
     }
 }

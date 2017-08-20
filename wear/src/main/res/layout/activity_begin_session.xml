@@ -20,7 +20,7 @@
             android:text="Select an activity"
             android:textColor="@color/white"
             android:fontFamily="@font/android_7"
-            android:textSize="20dp"/>
+            android:textSize="25dp"/>
 
         <!--<ImageButton-->
             <!--android:background="@null"-->

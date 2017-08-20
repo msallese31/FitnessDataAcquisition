@@ -15,21 +15,28 @@
 
         <Button
             android:id="@+id/submitRepsButton"
-            android:layout_gravity="bottom|center"
-            android:layout_width="100dp"
-            android:layout_height= "50dp"
+            android:layout_gravity="right"
+            android:layout_width="60dp"
+            android:layout_height= "100dp"
             android:text="Submit"
-            android:textSize="10dp"
+            android:textSize="6dp"
             android:onClick="saveDataAndReturn"/>
 
 
-        <EditText
-            android:id="@+id/repetitionsEditText"
-            android:layout_gravity="top|center"
-            android:layout_width="120dp"
-            android:layout_height="50dp"
-            android:ems="10"
-            android:inputType="number" />
+        <!--<EditText-->
+            <!--android:id="@+id/repetitionsEditText"-->
+            <!--android:layout_gravity="top|center"-->
+            <!--android:layout_width="120dp"-->
+            <!--android:layout_height="50dp"-->
+            <!--android:ems="10"-->
+            <!--android:inputType="number" />-->
+
+        <NumberPicker
+            android:id="@+id/repetitionsNumberPicker"
+            android:layout_gravity="left"
+            android:layout_width="60dp"
+            android:layout_height="110dp"
+            />
 
 
     </FrameLayout>

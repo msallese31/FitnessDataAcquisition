@@ -5,8 +5,8 @@ import android.os.Bundle;
 import android.support.wearable.activity.WearableActivity;
 import android.view.View;
 import android.widget.Button;
+import android.widget.NumberPicker;
 import android.widget.Spinner;
-import android.widget.TextView;
 
 import static com.projects.sallese.fitnessdataacquisition.LogHelper.logSensorLevel;
 
@@ -14,17 +14,19 @@ public class NameAndWeightActivity extends WearableActivity {
 
     private Button callDataCollectorButton;
     private Spinner exerciseNameSpinner;
-    private TextView weightTextView;
+    private NumberPicker weightNumberPicker;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_name_and_weight);
-
+// TODO: 8/19/17 Improve layout!!!
         callDataCollectorButton = (Button) findViewById(R.id.callDataCollectorButton);
         exerciseNameSpinner = (Spinner) findViewById(R.id.exerciseSpinner);
-        weightTextView = (TextView) findViewById(R.id.weightEditText);
-
+        weightNumberPicker = (NumberPicker) findViewById(R.id.weightNumberPicker);
+        weightNumberPicker.setMinValue(0);
+        weightNumberPicker.setMaxValue(200);
         // Enables Always-on
         setAmbientEnabled();
     }
@@ -35,7 +37,7 @@ public class NameAndWeightActivity extends WearableActivity {
         validateData();
         Intent resultIntent = new Intent();
         resultIntent.putExtra("exercise_name", exerciseNameSpinner.getSelectedItem().toString());
-        resultIntent.putExtra("weight", Integer.parseInt(weightTextView.getText().toString()));
+        resultIntent.putExtra("weight", weightNumberPicker.getValue());
 
         setResult(RESULT_OK, resultIntent);
         finish();

@@ -13,10 +13,12 @@ import android.hardware.SensorManager;
 import android.os.Handler;
 import android.os.IBinder;
 import android.support.v4.app.NotificationCompat;
+import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.concurrent.locks.Lock;
 
 import static com.projects.sallese.fitnessdataacquisition.LogHelper.logSensorLevel;
@@ -27,8 +29,14 @@ public class DataCollectionService extends Service implements SensorEventListene
     private SensorManager mSensorManager;
     private Sensor mAccelerometer;
     private Sensor mGyroscope;
-    private JSONObject accSessionData;
-    private JSONObject gyroSessionData;
+
+    public ArrayList<Float> XAcc;
+    public ArrayList<Float> YAcc;
+    public ArrayList<Float> ZAcc;
+
+    public ArrayList<Float> XGyro;
+    public ArrayList<Float> YGyro;
+    public ArrayList<Float> ZGyro;
 
     @Override
     public IBinder onBind(Intent intent) {
@@ -45,11 +53,13 @@ public class DataCollectionService extends Service implements SensorEventListene
                 .getDefaultSensor(Sensor.TYPE_GYROSCOPE);
 
         mSensorManager.registerListener(this, mAccelerometer,
-                SensorManager.SENSOR_DELAY_NORMAL, new Handler());
-        mSensorManager.registerListener(this, mGyroscope,
-                SensorManager.SENSOR_DELAY_NORMAL, new Handler());
+                SensorManager.SENSOR_DELAY_GAME, new Handler());
+//        mSensorManager.registerListener(this, mGyroscope,
+//                SensorManager.SENSOR_DELAY_NORMAL, new Handler());
         // TODO: 8/5/17 Research more sensors to leverage
-
+        XAcc = new ArrayList<Float>();
+        YAcc = new ArrayList<Float>();
+        ZAcc = new ArrayList<Float>();
         return START_STICKY;
     }
 
@@ -62,20 +72,31 @@ public class DataCollectionService extends Service implements SensorEventListene
         float x = event.values[0];
         float y = event.values[1];
         float z = event.values[2];
-//        logSensorLevel("Sensor: " + event.sensor.getName() + "\n" + "X: " + x + "Y: " + y + "Z:" + z + "\n");
-        if (event.sensor.getType() == Sensor.TYPE_ACCELEROMETER){
-//            logSensorLevel("Acclerometer should be a " + event.sensor.getName() + "\n");
-            return;
-        }
-//        logSensorLevel("Gyro should be a " + event.sensor.getName() + "\n");
+        logSensorLevel("X: " + x + "\nY: " + y + "\nZ:" + z + "\n");
+        XAcc.add(x);
+        YAcc.add(y);
+        ZAcc.add(z);
+        // TODO: 8/19/17 Some sort of synchronization..
     }
 
     @Override
     public void onDestroy() {
-        // TODO: 8/5/17 Clean up after sensors (turn off, dave data, etc)
+        // TODO: 8/5/17 Clean up after sensors (turn off, save data, etc)
+        logSensorLevel("Stop service called on destroy method");
         this.mSensorManager.unregisterListener(this);
+        sendDataToStartStopActivity();
         super.onDestroy();
-
     }
 
+    private void sendDataToStartStopActivity(){
+        logSensorLevel("Sending data from service after ondestroy was called.");
+        Intent intent = new Intent("send-service-data");
+        intent.putExtra("message", "Hello from DataCollectionService");
+        intent.putExtra("xAcc", XAcc);
+        intent.putExtra("yAcc", YAcc);
+        intent.putExtra("zAcc", ZAcc);
+        // TODO: 8/19/17 GYRO!!!
+        LocalBroadcastManager.getInstance(this).sendBroadcast(intent);
+        logSensorLevel("Sent broadcast!");
+    }
 }

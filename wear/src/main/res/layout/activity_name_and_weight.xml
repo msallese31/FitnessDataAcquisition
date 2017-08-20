@@ -5,7 +5,6 @@
     android:layout_width="match_parent"
     android:padding="15dp"
     android:background="@color/green">
-
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -24,19 +23,28 @@
 
         <Spinner
             android:id="@+id/exerciseSpinner"
-            android:layout_gravity="top|center"
-            android:layout_width="match_parent"
+            android:layout_gravity="top|right"
+            android:layout_width="50dp"
             android:layout_height="wrap_content"
             android:entries="@array/spinnerExerciseItems"/>
 
-        <EditText
-            android:id="@+id/weightEditText"
-            android:layout_gravity="bottom|left"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:ems="10"
-            android:inputType="number"
-            android:hint="Weight"/>
+        <!--<EditText-->
+            <!--android:id="@+id/weightEditText"-->
+            <!--android:layout_gravity="bottom|left"-->
+            <!--android:layout_width="50dp"-->
+            <!--android:layout_height="50dp"-->
+            <!--android:ems="10"-->
+            <!--android:inputType="number"-->
+            <!--android:hint="Weight"-->
+            <!--android:text="10"/>-->
+
+        <NumberPicker
+            android:id="@+id/weightNumberPicker"
+            android:layout_gravity="left"
+            android:layout_width="60dp"
+            android:layout_height="110dp"
+            />
+
 
 
     </FrameLayout>

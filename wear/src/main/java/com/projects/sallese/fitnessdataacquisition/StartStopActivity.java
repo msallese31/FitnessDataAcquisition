@@ -1,11 +1,29 @@
 package com.projects.sallese.fitnessdataacquisition;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.wearable.activity.WearableActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
 
 import static com.projects.sallese.fitnessdataacquisition.LogHelper.logSensorLevel;
 
@@ -31,6 +49,9 @@ public class StartStopActivity extends WearableActivity {
 
         startStopButton = (Button) findViewById(R.id.startStopButton);
         startStopButton.setText("Start " + activityType);
+
+        LocalBroadcastManager.getInstance(this).registerReceiver(serviceDataReceiver,
+                new IntentFilter("send-service-data"));
 
         // Enables Always-on
         setAmbientEnabled();
@@ -98,13 +119,54 @@ public class StartStopActivity extends WearableActivity {
         // TODO: 8/7/17 Check values returned
         logSensorLevel("Set repetitions!\nReps: " + workoutObject.getNumberOfReps() +"\n");
         logSensorLevel("Name: " + workoutObject.getExerciseName() +"\nWeight: " + workoutObject.getWeightUsed());
-
+        saveDataToJson();
     }
 
     public void stopExercise(){
         stopRecordingData();
         Intent enterRepsIntent = new Intent(this, EnterRepetitions.class);
         startActivityForResult(enterRepsIntent, REQUEST_CODE_REPETITIONS);
+    }
+
+    private BroadcastReceiver serviceDataReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            // Get extra data included in the Intent
+            String message = intent.getStringExtra("message");
+            logSensorLevel("Got message: " + message);
+            ArrayList<Float> xAcc = (ArrayList<Float>) intent.getSerializableExtra("xAcc");
+            ArrayList<Float> yAcc = (ArrayList<Float>) intent.getSerializableExtra("yAcc");
+            ArrayList<Float> zAcc = (ArrayList<Float>) intent.getSerializableExtra("zAcc");
+            workoutObject.setAccel(xAcc, yAcc, zAcc);
+        }
+    };
+
+    private void saveDataToJson() {
+        try {
+            JSONObject workoutJsonObject = new JSONObject();
+            String exerciseName = workoutObject.getExerciseName();
+            String repetitions = Integer.toString(workoutObject.getNumberOfReps());
+            String weight = Integer.toString(workoutObject.getWeightUsed());
+            ArrayList<Float> xAcc = workoutObject.getXAcc();
+            ArrayList<Float> yAcc = workoutObject.getYAcc();
+            ArrayList<Float> zAcc = workoutObject.getZAcc();
+
+            JSONArray xAccJson = new JSONArray(xAcc);
+            JSONArray yAccJson = new JSONArray(yAcc);
+            JSONArray zAccJson = new JSONArray(zAcc);
+
+            workoutJsonObject.put("exercise_name", exerciseName);
+            workoutJsonObject.put("repetitions", repetitions);
+            workoutJsonObject.put("weight", weight);
+            workoutJsonObject.put("xAcc", xAccJson);
+            workoutJsonObject.put("yAcc", yAccJson);
+            workoutJsonObject.put("zAcc", zAccJson);
+
+            logSensorLevel(workoutJsonObject.toString());
+
+        }catch (JSONException e){
+            logSensorLevel("Json Exception!" + e);
+        }
     }
 
     public void startShoot (){
@@ -162,5 +224,11 @@ public class StartStopActivity extends WearableActivity {
         else if (activityType.equals("shoot")){
             stopShoot();
         }
+    }
+
+    @Override
+    public void onDestroy(){
+        LocalBroadcastManager.getInstance(this).unregisterReceiver(serviceDataReceiver);
+        super.onDestroy();
     }
 }
